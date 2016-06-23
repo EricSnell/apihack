@@ -2,9 +2,9 @@
 A six question quiz game using information pulled from the Marvel API to populate and randomize the content. The questions will from the following catagories: creators, events, characters, comic books, series, and stories. 
 
 ## Wirefram
-* Start Quiz: http://imgur.com/UBJ4te8
-* Question Display: http://imgur.com/Qu0gQr1
-* Play Again: http://imgur.com/EU5aTr5
+* Start Quiz: ![screenshot](http://imgur.com/UBJ4te8.png)
+* Question Display: ![screenshot](http://imgur.com/Qu0gQr1.png)
+* Play Again: ![screenshot](http://imgur.com/EU5aTr5.png)
 
 # Minimum Requirments
 * Use AJAX to access data on the Marvel API
