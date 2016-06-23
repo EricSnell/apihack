@@ -1,0 +1,54 @@
+div { outline: 2px dotted red }
+
+body, html {
+  font-size: 16px;
+}
+
+.container {
+  display: flex; /* or inline-flex */
+  flex-direction: row;
+}
+
+.left-col {
+  min-width: 33%;
+}
+
+.toggle-hidden, .quiz-area {
+  min-width: 66%;
+  display: flex;
+}
+
+.middle-col, .right-col {
+  min-width: 50%;
+}
+
+.quiz-area {
+  flex-direction: column;
+}
+
+.a11y-hidden {
+  position: absolute;
+  left: -10000px;
+  top: auto;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+}
+
+.button-row {
+  overflow: hidden;
+  padding: 10%;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+}
+
+#quiz-form label {
+  padding: 2rem 6rem;
+  background: #bc1339;
+  border: 0.25rem solid #ae323b;
+}
+
+.hidden {
+  display: none;
+}
