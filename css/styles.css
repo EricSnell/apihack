@@ -4,17 +4,21 @@ body, html {
   font-size: 16px;
 }
 
+body {
+  background-color: rgb(25,24,24);
+}
+
 .container {
   display: flex; /* or inline-flex */
   flex-direction: row;
 }
 
 .left-col {
-  min-width: 33%;
+  min-width: 40%;
 }
 
 .toggle-hidden, .quiz-area {
-  min-width: 66%;
+  min-width: 60%;
   display: flex;
 }
 
@@ -24,6 +28,7 @@ body, html {
 
 .quiz-area {
   flex-direction: column;
+  text-align: center;
 }
 
 .a11y-hidden {
@@ -45,10 +50,44 @@ body, html {
 
 #quiz-form label {
   padding: 2rem 6rem;
-  background: #bc1339;
-  border: 0.25rem solid #ae323b;
+  background: rgb(240,20,30);
+  border: 0.15rem solid #c4150d;
 }
 
-.hidden {
-  display: none;
+#next-button {
+  padding: 1rem 5rem;
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+  background-color: rgb(9,157,220);
+}
+
+#left-image {
+  display: block;
+  width: 85%;
+  margin-top: 9rem;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+h1, h2, h3 {
+  color: white;
+  font-family: 'Bangers', sans-serif;
+}
+
+h1 {
+  margin-top: 4rem;
+  margin-bottom: .3rem;
+}
+
+h2 {
+
+}
+
+h3 {
+
+}
+
+p {
+  color: white;
 }
