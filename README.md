@@ -7,8 +7,8 @@ A six question quiz game using information pulled from the Marvel API to populat
 * Play Again: ![screenshot](http://imgur.com/EU5aTr5.png)
 
 # Minimum Requirments
-* Use AJAX to access data on the Marvel API
-* Show questions in set order:
+- [ ] Use AJAX to access data on the Marvel API
+- [ ] Show questions in set order:
   * Characters
     - Question: "Name the character?" 
   * Comics
@@ -21,14 +21,14 @@ A six question quiz game using information pulled from the Marvel API to populat
     - Question: "Which of these series did {creator} create?"
   * Stories 
     - Question: "Which of these characters appeared in this {story}?"
-* Dynamically add content to questions
-* Wrong answers will be drawn from a hardcoded pool of possible answers
-* Ask the user six questions, one at a time.
-* Keep track of user score
-* Restart the quiz, with same questions
+- [ ] Dynamically add content to questions
+- [ ] Wrong answers will be drawn from a hardcoded pool of possible answers
+- [ ] Ask the user six questions, one at a time.
+- [ ] Keep track of user score
+- [ ] Restart the quiz, with same questions
 
 # Additional Features
-* Show a picture related to user's final score, e.g. a bad score will receive a sad image 
-* Have a help section that overlays the screen when clicked
-* Display questions in random order
-* Wrong answer pool will be dynamically generated 
+- [ ] Show a picture related to user's final score, e.g. a bad score will receive a sad image 
+- [ ] Have a help section that overlays the screen when clicked
+- [ ] Display questions in random order
+- [ ] Wrong answer pool will be dynamically generated 
