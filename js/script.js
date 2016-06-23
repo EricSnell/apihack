@@ -15,3 +15,16 @@ $(document).ready(function(event){
 
 
 })
+
+
+// Creators
+
+// Events
+
+// Characters
+
+// Comic books
+
+// Series
+
+// Stories 
