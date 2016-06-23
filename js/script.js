@@ -10,21 +10,8 @@ $(document).ready(function(event){
 		console.log(result);
 	});
 
+});
 
 
 
 
-})
-
-
-// Creators
-
-// Events
-
-// Characters
-
-// Comic books
-
-// Series
-
-// Stories 
