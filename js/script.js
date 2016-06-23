@@ -1,10 +1,15 @@
 $(document).ready(function(event) {
   hideQuiz();
+
+  console.log(randomLetter());
+ 
   console.log(randomItemFromArray([1,4,56,8]));
+
 
   $('.game-button').click(function(event) {
     showQuiz();
     ajaxCall();
+
   });
 
   $('#quiz-form').submit(function(event) {
@@ -45,11 +50,16 @@ $(document).ready(function(event) {
 
   function randomLetter() {
     var possible = "abcdefghijklmnopqrstuvwxyz";
+<<<<<<< HEAD
     return possible.charAt(Math.floor(Math.random() * possible.length));
   } // 66 through 90 or 97 through 122
 
   function randomRange(min, max) {
     return Math.floor((Math.random() * (max - min)) + min);
+=======
+    return possible.charAt(Math.floor(Math.random() * (possible.length - 1)));
+    
+>>>>>>> 71c8ff4bedc443ce7ee8527f757970b85e5ce391
   }
 
   function randomItemFromArray(itemArray) {
