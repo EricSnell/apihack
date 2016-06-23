@@ -46,10 +46,14 @@ $(document).ready(function(event) {
   function randomLetter() {
     var possible = "abcdefghijklmnopqrstuvwxyz";
     return possible.charAt(Math.floor(Math.random() * possible.length));
+  } // 66 through 90 or 97 through 122
+
+  function randomRange(min, max) {
+    return Math.floor((Math.random() * (max - min)) + min);
   }
 
   function randomItemFromArray(itemArray) {
-  	return itemArray[Math.floor(Math.random() * itemArray.length)];
+  	return itemArray[ randomRange(0, itemArray.length - 1) ];
   }
 
 
