@@ -1,10 +1,15 @@
 $(document).ready(function(event) {
   hideQuiz();
+
+  console.log(randomLetter());
+ 
   console.log(randomItemFromArray([1,4,56,8]));
+
 
   $('.game-button').click(function(event) {
     showQuiz();
     ajaxCall();
+
   });
 
   $('#quiz-form').submit(function(event) {
@@ -45,7 +50,8 @@ $(document).ready(function(event) {
 
   function randomLetter() {
     var possible = "abcdefghijklmnopqrstuvwxyz";
-    return possible.charAt(Math.floor(Math.random() * possible.length));
+    return possible.charAt(Math.floor(Math.random() * (possible.length - 1)));
+    
   }
 
   function randomItemFromArray(itemArray) {
