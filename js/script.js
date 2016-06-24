@@ -104,33 +104,42 @@ $(document).ready(function(event) {
   }
 
   function question4() {
+    console.log('Entering question4');
     if (!eventData.length) {
+      console.log('eventData has not returned');
       eventData.push(question4); 
       return;
     }
+    console.log(eventData);
     quizForm.find('p').text('Which one of these events were they involved in?');
     quizForm.find('h3').text('4 out of 6');
-    quizForm.find('label[for="' + randomRangeExclusive(0, 4) + '"]').text(eventData[0].name);
+    quizForm.find('label[for="' + randomRangeExclusive(0, 4) + '"]').text(eventData[0].title);
   }
 
   function question5() {
+    console.log('Entering question5');
     if (!seriesData.length) {
+      console.log('seriesData has not returned');
       seriesData.push(question5); 
       return;
     }
+    console.log(seriesData);
     quizForm.find('p').text('Which one of these series were they a part of?');
     quizForm.find('h3').text('5 out of 6');
-    quizForm.find('label[for="' + randomRangeExclusive(0, 4) + '"]').text(seriesData[0].name);
+    quizForm.find('label[for="' + randomRangeExclusive(0, 4) + '"]').text(seriesData[0].title);
   }
 
   function question6() {
+    console.log('Entering question6');
     if (!storiesData.length) {
+      console.log('storiesData has not returned');
       storiesData.push(question6); 
       return;
     }
+    console.log(storiesData);
     quizForm.find('p').text('Which one of these stories were they a part of?');
     quizForm.find('h3').text('6 out of 6');
-    quizForm.find('label[for="' + randomRangeExclusive(0, 4) + '"]').text(storiesData[0].name);
+    quizForm.find('label[for="' + randomRangeExclusive(0, 4) + '"]').text(storiesData[0].title);
   }
 
 
