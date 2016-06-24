@@ -123,4 +123,23 @@ $(document).ready(function(event) {
 });
 
 
-/* loop through */
+/* API Calls 
+  Question 1: who is this character
+    GET /v1/public/characters
+      returns a list of characters, choose random character with something for all catagories
+  Question 2: which comic did the character come from?
+    GET /v1/public/characters/{characterId}/comics
+      returns a list of comics a character was featured in, choose a random comic from this list
+  Question 3: creator
+    Can use data from previous call to find creator 
+  Question 4: events
+    GET /v1/public/characters/{characterId}/events
+      returns a list of comics a character was featured in, choose a random event from this list
+  Question 5: series
+    GET /v1/public/characters/{characterId}/series
+      returns a list of series the character was featured in, choose a random series from this list
+  Question 6: stories
+    GET /v1/public/characters/{characterId}/stories
+      returns a list of stories the character was featured in, choose a random story from this list
+*/
+

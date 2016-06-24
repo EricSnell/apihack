@@ -7,7 +7,7 @@ A six question quiz game using information pulled from the Marvel API to populat
 * Play Again: ![screenshot](http://imgur.com/EU5aTr5.png)
 
 # Minimum Requirments
-- [ ] Use AJAX to access data on the Marvel API
+- [x] Use AJAX to access data on the Marvel API
 - [ ] Show questions in set order:
   * Characters
     - Question: "Name the character?" 
