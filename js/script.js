@@ -3,9 +3,15 @@ $(document).ready(function(event) {
       /* ============ VARIABLES ============== */
       var baseUrl = 'http://gateway.marvel.com:80/v1/public/';
       var key = '6801b29bb8b5052bd8f877a6282a1119';
-      var gameCharacter;
-      var quizForm = $('#quiz-form');
       var questionNumber = 0;
+      var characterData;
+      var comicData;
+      var eventData;
+      var seriesData;
+      var creatorData;
+      var quizForm = $('#quiz-form');
+      var isAvailableArr = [false, false, false, false, false, false];
+
 
       hideQuiz();
 
@@ -23,23 +29,22 @@ $(document).ready(function(event) {
                     temp = randomItemFromArray(result.data.results);
                   }
                   console.log('Random characters id: ' + temp.id);
-                  gameCharacter = temp;
-                  console.log('characters/' + gameCharacter.id + '/comics');
-                  ajaxCall('characters/' + gameCharacter.id + '/comics', { apikey: key })
-                    .done(
-                      function(result) {
-                        console.log(result);
-                      });
-                  ajaxCall('characters/' + gameCharacter.id + '/events', { apikey: key })
-                    .done(
-                      function(result) {
-                        console.log(result);
-                      });
-                }
-              );
+                  characterData = temp;
+                  var endpointArray = ['/comics', '/events', '/series', '/stories'];
 
 
+                 for (var i = 0; i < endpointArray.length; i++) {
+                    ajaxCall('characters/' + characterData.id + endpointArray[i], { apikey: key})
+                      .done(
+                        function(result) {
+                          console.log(endpointArray[i]);
+                          console.log(result);
+                          
+                        });
+                 }
             });
+
+      });
 
         /* Listens for a click on the Next button */
         $('#quiz-form').submit(function(event) {
@@ -55,46 +60,51 @@ $(document).ready(function(event) {
           // ajaxCall('characters', { apikey: apiKey, nameStartsWith: randLet });
         }
 
-        var questionArray = [question1, question2, question3, question4, question5];
+        var questionArray = [question1, question2, question3, question4, question5, question6];
 
         function question1() {
           quizForm.find('p').text('Who is this character?');
           quizForm.find('h3').text('1 out of 6');
-          quizForm.find('label[for="' + randomRangeExclusive(0, 4) + '"]').text(gameCharacter.name);
-          $('#left-image').attr('src', gameCharacter.thumbnail.path + '.' + gameCharacter.thumbnail.extension);
+          quizForm.find('label[for="' + randomRangeExclusive(0, 4) + '"]').text(characterData.name);
+          $('#left-image').attr('src', characterData.thumbnail.path + '.' + characterData.thumbnail.extension);
         }
 
         function question2() {
-          var comic = randomItemFromArray(gameCharacter.comics.items);
-          quizForm.find('p').text('What year was ' + comic.name + ' published?');
+          comicData = randomItemFromArray(characterData.comics.items);
+          console.log(comicData);
+          quizForm.find('p').text('What year was ' + comicData.name + ' published?');
           quizForm.find('h3').text('2 out of 6');
-          quizForm.find('label[for="' + randomRangeExclusive(0, 4) + '"]').text("19 bladdy blah");
+          quizForm.find('label[for="' + randomRangeExclusive(0, 4) + '"]').text(comicData.dates[0].date.substring(0, 4));
         }
 
         function question3() {
-          var event = randomItemFromArray(gameCharacter.events.items);
-          quizForm.find('p').text('Which one of these events were they involved in?');
+          creatorData = randomItemFromArray(comicData.creators); 
+          quizForm.find('p').text('Who was a creator of ' + comicData.name + '?');
           quizForm.find('h3').text('3 out of 6');
-          quizForm.find('label[for="' + randomRangeExclusive(0, 4) + '"]').text(event.name);
+          quizForm.find('label[for="' + randomRangeExclusive(0, 4) + '"]').text(creatorData);
         }
 
         function question4() {
-          var series = randomItemFromArray(gameCharacter.series.items);
-          quizForm.find('p').text('Which one of these series were they a part of?');
+          eventData = randomItemFromArray(characterData.events.items);
+          quizForm.find('p').text('Which one of these events were they involved in?');
           quizForm.find('h3').text('4 out of 6');
-          quizForm.find('label[for="' + randomRangeExclusive(0, 4) + '"]').text(series.name);
+          quizForm.find('label[for="' + randomRangeExclusive(0, 4) + '"]').text(eventData.name);
         }
 
         function question5() {
-          var stories = randomItemFromArray(gameCharacter.stories.items);
-          quizForm.find('p').text('Which one of these stories were they a part of?');
+          seriesData = randomItemFromArray(characterData.series.items);
+          quizForm.find('p').text('Which one of these series were they a part of?');
           quizForm.find('h3').text('5 out of 6');
-          quizForm.find('label[for="' + randomRangeExclusive(0, 4) + '"]').text(stories.name);
+          quizForm.find('label[for="' + randomRangeExclusive(0, 4) + '"]').text(seriesData.name);
         }
 
         function question6() {
-
+          storiesData = randomItemFromArray(characterData.stories.items);
+          quizForm.find('p').text('Which one of these stories were they a part of?');
+          quizForm.find('h3').text('6 out of 6');
+          quizForm.find('label[for="' + randomRangeExclusive(0, 4) + '"]').text(storiesData.name);
         }
+
 
         function ajaxCall(endpoint, queryString) {
           return $.ajax({
@@ -108,7 +118,7 @@ $(document).ready(function(event) {
         //   while (!(temp.comics.available && temp.events.available && temp.series.available && temp.stories.available)) {
         //     temp = randomItemFromArray(result.data.results);
         //   } 
-        //   gameCharacter = temp;  
+        //   characterData = temp;  
         // });
         //}
 
