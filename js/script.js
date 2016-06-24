@@ -49,22 +49,21 @@ $(document).ready(function(event) {
   }
 
   function randomLetter() {
-    var possible = "abcdefghijklmnopqrstuvwxyz";
-<<<<<<< HEAD
-    return possible.charAt(Math.floor(Math.random() * possible.length));
-  } // 66 through 90 or 97 through 122
+    return String.fromCharCode(randomRangeInclusive('a'.charCodeAt(0),'z'.charCodeAt(0)));
+  } 
 
-  function randomRange(min, max) {
-    return Math.floor((Math.random() * (max - min)) + min);
-=======
-    return possible.charAt(Math.floor(Math.random() * (possible.length - 1)));
-    
->>>>>>> 71c8ff4bedc443ce7ee8527f757970b85e5ce391
-  }
+/* Random number from min (inclusive) to max (exclusive). 
+   There is a chance min will appear as a random number, but max will never be returned. */
+function randomRangeExclusive(min, max) {
+  return Math.floor(Math.random() * (max - min)) + min; 
+}
 
-  function randomItemFromArray(itemArray) {
-  	return itemArray[ randomRange(0, itemArray.length - 1) ];
-  }
+/* Random number from min (inclusive) to max (inclusive).
+   Both max and min have a chance of appearing as the random number.*/
+function randomRangeInclusive(min, max) {
+  return Math.floor(Math.random() * (max - min + 1)) + min;
+}
+
 
 
 });
