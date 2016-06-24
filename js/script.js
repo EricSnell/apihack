@@ -1,5 +1,7 @@
 $(document).ready(function(event) {
+
   /* ============ VARIABLES ============== */
+
   var baseUrl = 'http://gateway.marvel.com:80/v1/public/';
   var apiKey = '6801b29bb8b5052bd8f877a6282a1119';
 
@@ -9,13 +11,13 @@ $(document).ready(function(event) {
 
   $('.game-button').click(function(event) {
     showQuiz();
+    runGame();
     // ajaxCall();
 
   });
 
   $('#quiz-form').submit(function(event) {
     event.preventDefault();
-    runGame();
   });
 
   /*========= FUNCTIONS =========*/
@@ -34,7 +36,10 @@ $(document).ready(function(event) {
       })
       .done(function(result) {
         var temp = randomItemFromArray(result.data.results);
-        console.log(temp);
+        while (!(temp.comics.available && temp.events.available && temp.series.available && temp.stories.available)) {
+          temp = randomItemFromArray(result.data.results);
+        } 
+        console.log(temp);       
       });
   }
 
@@ -65,7 +70,11 @@ function randomRangeInclusive(min, max) {
 }
 
 function randomItemFromArray(array) {
+  console.log(array);
   return array[randomRangeExclusive(0, array.length)];
 }
 
 });
+
+
+/* loop through */
