@@ -21,6 +21,7 @@ $(document).ready(function(event) {
   /* Listens for a click on the Next button */
   $('#quiz-form').submit(function(event) {
     event.preventDefault();
+    $('label').empty();
     questionArray[questionNumber]();
     questionNumber++;
   });
