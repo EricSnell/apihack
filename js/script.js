@@ -1,9 +1,9 @@
 $(document).ready(function(event) {
 
   /* ============ VARIABLES ============== */
-
   var baseUrl = 'http://gateway.marvel.com:80/v1/public/';
   var apiKey = '6801b29bb8b5052bd8f877a6282a1119';
+  var gameCharacter;
 
   hideQuiz();
 
@@ -16,6 +16,7 @@ $(document).ready(function(event) {
 
   });
 
+  /* Listens for a click on the Next button */
   $('#quiz-form').submit(function(event) {
     event.preventDefault();
   });
@@ -23,9 +24,17 @@ $(document).ready(function(event) {
   /*========= FUNCTIONS =========*/
   function runGame() {
   	var randLet = randomLetter();
-  	var currentCharacter = ajaxCall('characters', {apikey: apiKey, nameStartsWith: randLet});
+    ajaxCall('characters', {apikey: apiKey, nameStartsWith: randLet});
   }
+  
 
+  function populateQuestion() {
+    var quizForm = $('#quiz-form');
+    quizForm.find('p').text('Who is this character?');
+    quizForm.find('h3').text('1 out of 6');
+    quizForm.find('label[for="' + randomRangeExclusive(0,4) + '"]').text(gameCharacter.name);
+    $('#left-image').attr('src', gameCharacter.thumbnail.path + '.' + gameCharacter.thumbnail.extension);
+  }
 
   function ajaxCall(endpoint, queryString) {
 
@@ -39,7 +48,8 @@ $(document).ready(function(event) {
         while (!(temp.comics.available && temp.events.available && temp.series.available && temp.stories.available)) {
           temp = randomItemFromArray(result.data.results);
         } 
-        console.log(temp);       
+        gameCharacter = temp;
+        populateQuestion();     
       });
   }
 
