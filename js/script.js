@@ -12,10 +12,16 @@ $(document).ready(function(event) {
   var quizForm = $('#quiz-form');
   var isAvailableArr = [false, false, false, false, false, false];
 
+  // Arrays of possible wrong answers for each question category
+  var wrongCharacter = [];
+  var wrongComic = [];
+  var wrongCreator = [];
+  var wrongEvent = [];
+  var wrongSeries = [];
+  var wrongStories = [];
+ 
 
   hideQuiz();
-
-
 
   $('.game-button').click(function(event) {
     showQuiz();
@@ -60,11 +66,41 @@ $(document).ready(function(event) {
 
   /* Listens for a click on the Next button */
   $('#quiz-form').submit(function(event) {
-    event.preventDefault();
-    $('label').empty();
-    questionArray[questionNumber]();
-    questionNumber++;
+      event.preventDefault();
+      if (questionNumber === 6) {
+        showResults();        
+
+      } else {
+        $('label').empty();
+        questionArray[questionNumber]();
+        questionNumber++;
+        console.log(questionNumber);
+      }
   });
+
+  /* Listes for a click on the Play Again button */
+  $('.replay-button').click(function(event) {
+      event.preventDefault();
+      playAgain();
+  })
+
+  /* Checks if radio button is selected, compares to correct answer, and adjusts score */
+  function checkAnswer() {
+  
+  }
+
+  /* Resets game, clears data */
+  function playAgain() {
+    questionNumber = 0;
+    characterData = [];
+    comicData = [];
+    eventData = [];
+    seriesData = [];
+    storiesData = [];
+    var isAvailableArr = [false, false, false, false, false, false];
+    hideQuiz();
+  }
+
 
   /*========= FUNCTIONS =========*/
   function runGame() {
@@ -75,7 +111,7 @@ $(document).ready(function(event) {
   var questionArray = [question1, question2, question3, question4, question5, question6];
 
   function question1() {
-    quizForm.find('p').text('Who is this character?');
+    quizForm.find('p').text('Name the character(s)...');
     quizForm.find('h3').text('1 out of 6');
     quizForm.find('label[for="' + randomRangeExclusive(0, 4) + '"]').text(characterData.name);
     $('#left-image').attr('src', characterData.thumbnail.path + '.' + characterData.thumbnail.extension);
@@ -88,9 +124,10 @@ $(document).ready(function(event) {
       comicData.push(question2); 
       return;
     }
-    quizForm.find('p').text('What year was ' + comicData[0].title + ' published?');
+    quizForm.find('p').text('They were featured in the comic ' + comicData[0].title + ', which was published in what year?');
     quizForm.find('h3').text('2 out of 6');
     quizForm.find('label[for="' + randomRangeExclusive(0, 4) + '"]').text(comicData[0].dates[0].date.substring(0, 4));
+    $('#left-image').attr('src', comicData[0].thumbnail.path + '.' + comicData[0].thumbnail.extension);
   }
 
   function question3() {
@@ -114,6 +151,7 @@ $(document).ready(function(event) {
     quizForm.find('p').text('Which one of these events were they involved in?');
     quizForm.find('h3').text('4 out of 6');
     quizForm.find('label[for="' + randomRangeExclusive(0, 4) + '"]').text(eventData[0].title);
+    $('#left-image').attr('src', characterData.thumbnail.path + '.' + characterData.thumbnail.extension);
   }
 
   function question5() {
@@ -161,12 +199,18 @@ $(document).ready(function(event) {
 
   function hideQuiz() {
     $('.quiz-area').hide();
+    $('.results').hide();
     $('.toggle-hidden').show();
   }
 
   function showQuiz() {
     $('.toggle-hidden').hide();
     $('.quiz-area').show();
+  }
+
+  function showResults() {
+    $('.results').show();
+    $('.quiz-area').hide();
   }
 
   function randomLetter() {

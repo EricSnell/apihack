@@ -32,3 +32,4 @@ A six question quiz game using information pulled from the Marvel API to populat
 - [ ] Have a help section that overlays the screen when clicked
 - [ ] Display questions in random order
 - [ ] Wrong answer pool will be dynamically generated 
+- [ ] Change "Next" button on each question to "Loading..." until data for next question is available
