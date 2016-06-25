@@ -160,10 +160,21 @@ $(document).ready(function(event) {
     });
   }
 
+  function toggleDisable(button) {
+    if( button.is(':disabled') ) {
+      button.prop('disabled', false);
+      button.text('Next');
+    } else {
+      button.prop('disabled', true);
+      button.text('loading');
+    }
+  }
+
   /*
    * Start the five AJAX requests necessary to retrieve the necessary information for the quiz. 
    */
   function makeAJAXRequests() {
+      toggleDisable($('.game-button'));
      // First call to API to get a random character with something in all fields
     ajaxCall('characters', { apikey: KEY, nameStartsWith: randomLetter() })
       .done(
@@ -173,7 +184,7 @@ $(document).ready(function(event) {
             characterData = randomItemFromArray(result.data.results);
           } while (!(characterData.comics.available && characterData.events.available && characterData.series.available && characterData.stories.available));
           console.log('Random characters id: ' + characterData.id);
-          
+          toggleDisable($('.game-button'));
           var endpointMap = {
             '/comics': comicData,
             '/events': eventData,
