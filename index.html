@@ -3,19 +3,24 @@
 
 <head>
   <meta charset="UTF-8">
-  <title>Document</title>
+  <title>Marvel API Quiz</title>
+
   <link href='https://fonts.googleapis.com/css?family=Bangers' rel='stylesheet' type='text/css'>
   <link rel="stylesheet" type='text/css' href="css/styles.css">
 </head>
 
 <body>
   <div class="container">
+
+    <!--============= LEFT COLUMN (allways visible) =====================-->
     <div class="left-col">
       <div class="help-wrapper">
       </div>
       <img src="http://vignette2.wikia.nocookie.net/marveldatabase/images/a/a8/Marvel_Knights_Spider-Man_Vol_2_1_Barberi_Variant_Textless.jpg/revision/latest?cb=20130917215409" alt="" id="left-image">
     </div>
-    <div class="toggle-hidden">
+
+    <!--================== QUIZ INTRO ================-->
+    <div class="intro-screen">
       <div class="middle-col">
         <h2></h2>
         <img src="" alt="" id="middle-image">
@@ -25,8 +30,9 @@
         <img src="" alt="" id="right-image">
       </div>
     </div>
-    <!---------- Quiz Template Area ---------->
-    <div class="template quiz-area">
+
+    <!--=========== QUIZ AREA ===========-->
+    <div class="quiz-area">
       <h1>Marvel Quiz</h1>
       <form id="quiz-form">
         <h2>Question</h2>
@@ -47,18 +53,18 @@
         <button type="submit" id="next-button">Next!</button>
       </form>
     </div>
-    <!------------ Results Area ------------>
+
+    <!--=========== RESULTS AREA ===========-->
     <div class="results">
       <div class="middle-col">
         <h2>Show Results</h2>
-        <img src="images/results6.jpg" alt="" id="middle-image">
+        <!-- <img src="images/results6.jpg" alt="" id="middle-image"> -->
         <button class="replay-button">Play Again!</button>
       </div>
       <div class="right-col">
         <img src="" alt="" id="right-image">
       </div>
     </div>
-
   </div>
   <script src="js/jquery-3.0.0.min.js"></script>
   <script src="js/script.js"></script>

@@ -1,64 +1,30 @@
 $(document).ready(function(event) {
 
   /* ============ VARIABLES ============== */
-  var baseUrl = 'http://gateway.marvel.com:80/v1/public/';
-  var key = '6801b29bb8b5052bd8f877a6282a1119';
+  var BASEURL = 'http://gateway.marvel.com:80/v1/public/';
+  var KEY = '6801b29bb8b5052bd8f877a6282a1119';
+  var QUIZFORM = $('#quiz-form');
+
   var questionNumber = 0;
   var characterData;
   var comicData = [];
   var eventData = [];
   var seriesData = [];
   var storiesData = [];
-  var quizForm = $('#quiz-form');
-  var isAvailableArr = [false, false, false, false, false, false];
 
+  /* =========== Main Code Area ================= */
   hideQuiz();
+  makeAJAXRequests();
 
   $('.game-button').click(function(event) {
     showQuiz();
-    // First call to API to get a random character with something in all fields
-    ajaxCall('characters', { apikey: key, nameStartsWith: randomLetter() })
-      .done(
-        function(result) {
-          console.log('character call done.');
-          var temp = randomItemFromArray(result.data.results);
-          while (!(temp.comics.available && temp.events.available && temp.series.available && temp.stories.available)) {
-            temp = randomItemFromArray(result.data.results);
-          }
-          console.log('Random characters id: ' + temp.id);
-          characterData = temp;
-          var endpointMap = {
-            '/comics': comicData,
-            '/events': eventData,
-            '/series': seriesData,
-            '/stories': storiesData
-          };
-
-          for (var endpoint in endpointMap) {
-            /* Snapshot the current value of 'endpoint' using a closure - otherwise the callback wouldn't be able to use it */
-            (function(ep) {
-              ajaxCall('characters/' + characterData.id + ep, { apikey: key })
-                .done(
-                  function(result) {
-                    endpointMap[ep].push(randomItemFromArray(result.data.results));
-                    /* If we are still waiting for a response the appropriate function will be in the array
-                       Remove it and call immediately. 
-                    */
-                    if(endpointMap[ep].length === 2) {
-                      endpointMap[ep].shift()();
-                    }
-                  });
-            })(endpoint);
-          }
-        });
-
   });
 
   /* Listens for a click on the Next button */
   $('#quiz-form').submit(function(event) {
       event.preventDefault();
       if (questionNumber === 6) {
-        $('')
+        $('');
         showResults();        
 
       } else {
@@ -71,9 +37,8 @@ $(document).ready(function(event) {
 
   /* Listes for a click on the Play Again button */
   $('.replay-button').click(function(event) {
-      event.preventDefault();
       playAgain();
-  })
+  });
 
   /* Checks if radio button is selected, compares to correct answer, and adjusts score */
   function checkAnswer() {
@@ -88,7 +53,6 @@ $(document).ready(function(event) {
     eventData = [];
     seriesData = [];
     storiesData = [];
-    var isAvailableArr = [false, false, false, false, false, false];
     hideQuiz();
   }
 
@@ -106,16 +70,17 @@ $(document).ready(function(event) {
         this.text(randomItemFromArray(arrayName));
         console.log(arrayName);
       } 
-    })
+    });
   }
 
   var questionArray = [question1, question2, question3, question4, question5, question6];
 
+
   function question1() {
     var wrongCharacter = ['Batman', 'Godzilla', 'Morgan Freeman', 'Howard the Duck'];
-    quizForm.find('p').text('Name the character(s)...');
-    quizForm.find('h3').text('1 out of 6');
-    quizForm.find('label[for="' + randomRangeExclusive(0, 4) + '"]').text(characterData.name);
+    QUIZFORM.find('p').text('Name the character(s)...');
+    QUIZFORM.find('h3').text('1 out of 6');
+    QUIZFORM.find('label[for="' + randomRangeExclusive(0, 4) + '"]').text(characterData.name);
     $('#left-image').attr('src', characterData.thumbnail.path + '.' + characterData.thumbnail.extension);
     }
 
@@ -127,9 +92,9 @@ $(document).ready(function(event) {
       return;
     }
     var wrongComic = ['Beetle Bailey', 'Dilbert', 'Garfield', 'Peanuts'];
-    quizForm.find('p').text('They were featured in the comic ' + comicData[0].title + ', which was published in what year?');
-    quizForm.find('h3').text('2 out of 6');
-    quizForm.find('label[for="' + randomRangeExclusive(0, 4) + '"]').text(comicData[0].dates[0].date.substring(0, 4));
+    QUIZFORM.find('p').text('They were featured in the comic ' + comicData[0].title + ', which was published in what year?');
+    QUIZFORM.find('h3').text('2 out of 6');
+    QUIZFORM.find('label[for="' + randomRangeExclusive(0, 4) + '"]').text(comicData[0].dates[0].date.substring(0, 4));
     $('#left-image').attr('src', comicData[0].thumbnail.path + '.' + comicData[0].thumbnail.extension);
   }
 
@@ -139,9 +104,9 @@ $(document).ready(function(event) {
     var creatorData = randomItemFromArray(comicData[0].creators.items);
     var wrongCreator = ['Matt Groening', 'Mike Judge', 'Papa John', 'Walt Disney'];
     console.log(creatorData);
-    quizForm.find('p').text('Who was a creator of ' + comicData[0].title + '?');
-    quizForm.find('h3').text('3 out of 6');
-    quizForm.find('label[for="' + randomRangeExclusive(0, 4) + '"]').text(creatorData.name);
+    QUIZFORM.find('p').text('Who was a creator of ' + comicData[0].title + '?');
+    QUIZFORM.find('h3').text('3 out of 6');
+    QUIZFORM.find('label[for="' + randomRangeExclusive(0, 4) + '"]').text(creatorData.name);
   }
 
   function question4() {
@@ -153,9 +118,9 @@ $(document).ready(function(event) {
     }
     console.log(eventData);
     var wrongEvent = ['EDC', 'Sundance', 'Burning Man', 'E3'];
-    quizForm.find('p').text('Which one of these events were they involved in?');
-    quizForm.find('h3').text('4 out of 6');
-    quizForm.find('label[for="' + randomRangeExclusive(0, 4) + '"]').text(eventData[0].title);
+    QUIZFORM.find('p').text('Which one of these events were they involved in?');
+    QUIZFORM.find('h3').text('4 out of 6');
+    QUIZFORM.find('label[for="' + randomRangeExclusive(0, 4) + '"]').text(eventData[0].title);
     $('#left-image').attr('src', characterData.thumbnail.path + '.' + characterData.thumbnail.extension);
   }
 
@@ -168,9 +133,9 @@ $(document).ready(function(event) {
     }
     console.log(seriesData);
     var wrongSeries = ['Family Matters', 'Full House', 'Hogans Heroes', 'The Golden Girls'];
-    quizForm.find('p').text('Which one of these series were they a part of?');
-    quizForm.find('h3').text('5 out of 6');
-    quizForm.find('label[for="' + randomRangeExclusive(0, 4) + '"]').text(seriesData[0].title);
+    QUIZFORM.find('p').text('Which one of these series were they a part of?');
+    QUIZFORM.find('h3').text('5 out of 6');
+    QUIZFORM.find('label[for="' + randomRangeExclusive(0, 4) + '"]').text(seriesData[0].title);
   }
 
   function question6() {
@@ -182,35 +147,67 @@ $(document).ready(function(event) {
     }
     console.log(storiesData);
     var wrongStories = ['The Giving Tree', 'Grimms Fairy Tales', 'Stinky Cheese Man', 'Goosebumps'];
-    quizForm.find('p').text('Which one of these stories were they a part of?');
-    quizForm.find('h3').text('6 out of 6');
-    quizForm.find('label[for="' + randomRangeExclusive(0, 4) + '"]').text(storiesData[0].title);
+    QUIZFORM.find('p').text('Which one of these stories were they a part of?');
+    QUIZFORM.find('h3').text('6 out of 6');
+    QUIZFORM.find('label[for="' + randomRangeExclusive(0, 4) + '"]').text(storiesData[0].title);
   }
 
   function ajaxCall(endpoint, queryString) {
     return $.ajax({
       type: 'GET',
-      url: baseUrl + endpoint,
+      url: BASEURL + endpoint,
       data: queryString
     });
   }
-  // .done(function(result) {
-  //   var temp = randomItemFromArray(result.data.results);
-  //   while (!(temp.comics.available && temp.events.available && temp.series.available && temp.stories.available)) {
-  //     temp = randomItemFromArray(result.data.results);
-  //   } 
-  //   characterData = temp;  
-  // });
-  //}
+
+  /*
+   * Start the five AJAX requests necessary to retrieve the necessary information for the quiz. 
+   */
+  function makeAJAXRequests() {
+     // First call to API to get a random character with something in all fields
+    ajaxCall('characters', { apikey: KEY, nameStartsWith: randomLetter() })
+      .done(
+        function(result) {
+          console.log('character call done.');
+          do {
+            characterData = randomItemFromArray(result.data.results);
+          } while (!(characterData.comics.available && characterData.events.available && characterData.series.available && characterData.stories.available));
+          console.log('Random characters id: ' + characterData.id);
+          
+          var endpointMap = {
+            '/comics': comicData,
+            '/events': eventData,
+            '/series': seriesData,
+            '/stories': storiesData
+          };
+
+          for (var endpoint in endpointMap) {
+            /* Snapshot the current value of 'endpoint' using a closure - otherwise the callback wouldn't be able to use it */
+            (function(ep) {
+              ajaxCall('characters/' + characterData.id + ep, { apikey: KEY })
+                .done(
+                  function(result) {
+                    endpointMap[ep].push(randomItemFromArray(result.data.results));
+                    /* If we are still waiting for a response the appropriate function will be in the array
+                       Remove it and call immediately. 
+                    */
+                    if(endpointMap[ep].length === 2) {
+                      endpointMap[ep].shift()();
+                    }
+                  });
+            })(endpoint);
+          }
+        });
+  }
 
   function hideQuiz() {
     $('.quiz-area').hide();
     $('.results').hide();
-    $('.toggle-hidden').show();
+    $('.intro-screen').show();
   }
 
   function showQuiz() {
-    $('.toggle-hidden').hide();
+    $('.intro-screen').hide();
     $('.quiz-area').show();
   }
 
@@ -219,9 +216,8 @@ $(document).ready(function(event) {
     $('.quiz-area').hide();
   }
 
-  function randomLetter() {
-    return String.fromCharCode(randomRangeInclusive('a'.charCodeAt(0), 'z'.charCodeAt(0)));
-  }
+  /* ========================== HELPER FUNCTIONs ================== */
+
 
   /* Random number from min (inclusive) to max (exclusive). 
      There is a chance min will appear as a random number, but max will never be returned. */
@@ -239,25 +235,8 @@ $(document).ready(function(event) {
     return array[randomRangeExclusive(0, array.length)];
   }
 
+  function randomLetter() {
+    return String.fromCharCode(randomRangeInclusive('a'.charCodeAt(0), 'z'.charCodeAt(0)));
+  }
+
 });
-
-
-/* API Calls 
-  Question 1: who is this character
-    GET /v1/public/characters
-      returns a list of characters, choose random character with something for all catagories
-  Question 2: which comic did the character come from?
-    GET /v1/public/characters/{characterId}/comics
-      returns a list of comics a character was featured in, choose a random comic from this list
-  Question 3: creator
-    Can use data from previous call to find creator 
-  Question 4: events
-    GET /v1/public/characters/{characterId}/events
-      returns a list of comics a character was featured in, choose a random event from this list
-  Question 5: series
-    GET /v1/public/characters/{characterId}/series
-      returns a list of series the character was featured in, choose a random series from this list
-  Question 6: stories
-    GET /v1/public/characters/{characterId}/stories
-      returns a list of stories the character was featured in, choose a random story from this list
-*/
