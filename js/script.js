@@ -12,15 +12,6 @@ $(document).ready(function(event) {
   var quizForm = $('#quiz-form');
   var isAvailableArr = [false, false, false, false, false, false];
 
-  // Arrays of possible wrong answers for each question category
-  var wrongCharacter = [];
-  var wrongComic = [];
-  var wrongCreator = [];
-  var wrongEvent = [];
-  var wrongSeries = [];
-  var wrongStories = [];
- 
-
   hideQuiz();
 
   $('.game-button').click(function(event) {
@@ -42,7 +33,6 @@ $(document).ready(function(event) {
             '/series': seriesData,
             '/stories': storiesData
           };
-
 
           for (var endpoint in endpointMap) {
             /* Snapshot the current value of 'endpoint' using a closure - otherwise the callback wouldn't be able to use it */
@@ -68,6 +58,7 @@ $(document).ready(function(event) {
   $('#quiz-form').submit(function(event) {
       event.preventDefault();
       if (questionNumber === 6) {
+        $('')
         showResults();        
 
       } else {
@@ -86,7 +77,7 @@ $(document).ready(function(event) {
 
   /* Checks if radio button is selected, compares to correct answer, and adjusts score */
   function checkAnswer() {
-  
+    
   }
 
   /* Resets game, clears data */
@@ -108,14 +99,25 @@ $(document).ready(function(event) {
     // ajaxCall('characters', { apikey: apiKey, nameStartsWith: randLet });
   }
 
+  /* Populates empty labels with random items from wrong answer array */
+  function wrongAnswers(arrayName) {
+    $('#test').each(function() {
+      if (this.text === '') {
+        this.text(randomItemFromArray(arrayName));
+        console.log(arrayName);
+      } 
+    })
+  }
+
   var questionArray = [question1, question2, question3, question4, question5, question6];
 
   function question1() {
+    var wrongCharacter = ['Batman', 'Godzilla', 'Morgan Freeman', 'Howard the Duck'];
     quizForm.find('p').text('Name the character(s)...');
     quizForm.find('h3').text('1 out of 6');
     quizForm.find('label[for="' + randomRangeExclusive(0, 4) + '"]').text(characterData.name);
     $('#left-image').attr('src', characterData.thumbnail.path + '.' + characterData.thumbnail.extension);
-  }
+    }
 
   function question2() {
     console.log('Entering question2');
@@ -124,6 +126,7 @@ $(document).ready(function(event) {
       comicData.push(question2); 
       return;
     }
+    var wrongComic = ['Beetle Bailey', 'Dilbert', 'Garfield', 'Peanuts'];
     quizForm.find('p').text('They were featured in the comic ' + comicData[0].title + ', which was published in what year?');
     quizForm.find('h3').text('2 out of 6');
     quizForm.find('label[for="' + randomRangeExclusive(0, 4) + '"]').text(comicData[0].dates[0].date.substring(0, 4));
@@ -134,6 +137,7 @@ $(document).ready(function(event) {
     console.log('Entering question3');
     console.log(comicData[0].creators.items);
     var creatorData = randomItemFromArray(comicData[0].creators.items);
+    var wrongCreator = ['Matt Groening', 'Mike Judge', 'Papa John', 'Walt Disney'];
     console.log(creatorData);
     quizForm.find('p').text('Who was a creator of ' + comicData[0].title + '?');
     quizForm.find('h3').text('3 out of 6');
@@ -148,6 +152,7 @@ $(document).ready(function(event) {
       return;
     }
     console.log(eventData);
+    var wrongEvent = ['EDC', 'Sundance', 'Burning Man', 'E3'];
     quizForm.find('p').text('Which one of these events were they involved in?');
     quizForm.find('h3').text('4 out of 6');
     quizForm.find('label[for="' + randomRangeExclusive(0, 4) + '"]').text(eventData[0].title);
@@ -162,6 +167,7 @@ $(document).ready(function(event) {
       return;
     }
     console.log(seriesData);
+    var wrongSeries = ['Family Matters', 'Full House', 'Hogans Heroes', 'The Golden Girls'];
     quizForm.find('p').text('Which one of these series were they a part of?');
     quizForm.find('h3').text('5 out of 6');
     quizForm.find('label[for="' + randomRangeExclusive(0, 4) + '"]').text(seriesData[0].title);
@@ -175,11 +181,11 @@ $(document).ready(function(event) {
       return;
     }
     console.log(storiesData);
+    var wrongStories = ['The Giving Tree', 'Grimms Fairy Tales', 'Stinky Cheese Man', 'Goosebumps'];
     quizForm.find('p').text('Which one of these stories were they a part of?');
     quizForm.find('h3').text('6 out of 6');
     quizForm.find('label[for="' + randomRangeExclusive(0, 4) + '"]').text(storiesData[0].title);
   }
-
 
   function ajaxCall(endpoint, queryString) {
     return $.ajax({

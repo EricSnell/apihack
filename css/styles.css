@@ -1,5 +1,3 @@
-/* Skeleton framework for flex in css */
-
 div { outline: 2px dotted red }
 
 body, html {
@@ -7,8 +5,10 @@ body, html {
 }
 
 body {
-  background-color: rgb(25,24,24);
-}
+/*  background-color: rgb(25,24,24);  */
+  background-image: url('../images/background.jpg');
+  background-repeat: no-repeat;
+  }
 
 .container {
   display: flex; /* or inline-flex */
